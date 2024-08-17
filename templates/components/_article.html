@@ -1,0 +1,13 @@
+<div class="card" style="width: mb auto;">
+  <a href="{% url 'article_detail' article.pk %}">
+    {% if article.image %}
+    <img src="{{ article.image.url }}" class="card-img-top" alt="..." height="">
+    {% else %}
+    <img src="..." class="card-img-top" alt="...">
+    {% endif %}
+  </a>
+
+  <div class="card-body">
+    <p class="card-text">{{ article.title }}</p>
+  </div>
+</div>

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Детальная: {{ article.title }}
+{% endblock %}
+
+{% block content %}
+<div class="card mb-3" style="max-width: 1000px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      {% if article.image %}
+      <img src="{{ article.image.url }}" class="img-fluid rounded-start" alt="...">
+      {% endif %}
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{ article.title }}</h5>
+        <p class="lh-1">{{ article.full_description }}</p>
+      </div>
+    </div>
+  </div>
+    <div class="card-footer d-flex">
+      {% if request.user == article.author %}
+    <div class="d-flex column-gap-3">
+      <a href="{% url 'update' article.pk %}" class="btn btn-warning">Изменить</a>
+      <a href="{% url 'delete' article.pk %}" class="btn btn-danger">Удалить</a>
+    </div>
+      {% endif %}
+  </div>
+</div>
+
+<div class="card" style="max-width: 1000px;">
+  <div class="card-body">
+    <h2 class="card-title">Цена</h2>
+    <h1 class="text-sm-end"><strong>{{ article.price }}</strong>$</h1>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a href="{% url 'add_to_cart' article.pk %}" class="btn btn-success" type="button">$Купить$</a>
+</div>
+  </div>
+</div>
+
+<div class="comments-block">
+  <h2 class="text-center my-5">Отзывы</h2>
+
+  <div class="row row-gap-3">
+    {% for comment in  comments %}
+    <div class="col-4">
+      <div class="card">
+  <div class="card-body">
+    <h5 class="card-title">{{ comment.author }}</h5>
+    <h6 class="card-subtitle mb-2 text-body-secondary">{{ comment.created_at }}</h6>
+    <p class="card-text">{{ comment.text }}</p>
+  </div>
+</div>
+    </div>
+    {% endfor %}
+
+  {% if request.user.is_authenticated %}
+  <form action="" method="post" class="mt-5">
+     {% csrf_token %}
+     {{ form }}
+    <button class="btn btn-dark mt-3">Отправить</button>
+  </form>
+  {% else %}
+  <p>Только авторизованные пользователи, могут оставлять отзывы <a href="{% url 'login' %}">Войти</a></p>
+  {% endif %}
+</div>
+  {% endblock %}
+</div>

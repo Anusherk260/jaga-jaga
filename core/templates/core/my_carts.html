@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Корзины
+{% endblock %}
+
+{% block content %}
+    {% if carts %}
+        {% for cart in carts %}
+            <a href="{% url 'article_detail' cart.article.pk %}">{{ cart.article }}</a>
+            <a style="color: red;" href="{% url 'remove_from_cart' cart.pk %}">Удалить</a>
+        {% endfor %}
+    {% else %}
+        <p>Ваша корзина пуста.</p>
+    {% endif %}
+{% endblock %}
